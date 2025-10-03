@@ -3,6 +3,7 @@ pragma solidity ^0.8.30;
 
 import {Script} from "forge-std/Script.sol";
 import {stdJson} from "forge-std/StdJson.sol";
+
 import {Fork} from "test/shared/helpers/Fork.sol";
 
 abstract contract BaseScript is Script, Fork {
@@ -50,7 +51,8 @@ abstract contract BaseScript is Script, Fork {
         json.serialize("blockNumber", vm.getBlockNumber());
         json.serialize("timestamp", vm.getBlockTimestamp());
         json.serialize("salt", salt);
-        json = json.serialize("name", name);
+        json.serialize("name", name);
+        json = json.serialize("deployer", broadcaster);
         json.write(path);
     }
 

@@ -55,6 +55,14 @@ abstract contract Fork is Constants {
         _;
     }
 
+    function advanceBlocks(uint256 delta) internal virtual returns (uint256 blockNumber) {
+        vm.roll(blockNumber = vm.getBlockNumber() + delta);
+    }
+
+    function advanceTime(uint256 delta) internal virtual returns (uint256 blockTimestamp) {
+        vm.warp(blockTimestamp = vm.getBlockTimestamp() + delta);
+    }
+
     function selectChain(uint256 chainId) internal virtual returns (uint256) {
         return selectChain(chainId, 0);
     }

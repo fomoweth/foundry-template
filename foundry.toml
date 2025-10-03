@@ -15,7 +15,7 @@ via_ir = true
 verbosity = 2
 
 fs_permissions = [
-	{ access = "read-write", path = ".forge-snapshots" },
+	{ access = "read-write", path = "deployments" },
     { access = "read", path = "out" },
 	{ access = "read", path = "script" },
     { access = "read", path = "test" }
@@ -36,6 +36,9 @@ return_statement = "inline"
 
 [fuzz]
 run = 5000
+
+[lint]
+lint_on_build = false
 
 [rpc_endpoints]
 ethereum = "${ETHEREUM_RPC_URL}"
