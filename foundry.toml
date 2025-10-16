@@ -41,6 +41,7 @@ run = 5000
 lint_on_build = false
 
 [rpc_endpoints]
+mainnet = "${ETHEREUM_RPC_URL}"
 ethereum = "${ETHEREUM_RPC_URL}"
 sepolia = "${SEPOLIA_RPC_URL}"
 optimism = "${OPTIMISM_RPC_URL}"
@@ -59,6 +60,7 @@ avalanche = "${AVALANCHE_RPC_URL}"
 avalanche-sepolia = "${AVALANCHE_FUJI_RPC_URL}"
 
 [etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}", chainId = 1 }
 ethereum = { key = "${ETHERSCAN_API_KEY}", chainId = 1 }
 sepolia = { key = "${ETHERSCAN_API_KEY}", chainId = 11155111 }
 optimism = { key = "${ETHERSCAN_API_KEY}", chainId = 10 }
