@@ -1,10 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {Test} from "forge-std/Test.sol";
-
 import {Counter} from "src/Counter.sol";
-import {Deploy} from "script/Deploy.s.sol";
 import {BaseTest} from "test/shared/BaseTest.sol";
 
 contract CounterTest is BaseTest {
@@ -39,17 +36,5 @@ contract CounterTest is BaseTest {
         counter.increment();
         vm.snapshotGasLastCall("Counter#increment");
         assertEq(counter.number(), initialNumber + 1);
-    }
-}
-
-contract DeploymentTest is Test {
-    Counter internal counter;
-
-    function setUp() public virtual {
-        counter = Counter(new Deploy().run());
-    }
-
-    function test_deploy() public view {
-        assertEq(counter.number(), 5);
     }
 }

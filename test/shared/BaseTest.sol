@@ -2,40 +2,28 @@
 pragma solidity ^0.8.30;
 
 import {Test} from "forge-std/Test.sol";
+import {Config} from "forge-std/Config.sol";
 import {StdStorage, stdStorage} from "forge-std/StdStorage.sol";
-import {VmSafe} from "forge-std/Vm.sol";
 
-import {Fixtures} from "test/shared/helpers/Fixtures.sol";
-import {Fork} from "test/shared/helpers/Fork.sol";
+import {Constants} from "test/shared/Constants.sol";
+import {Fixtures} from "test/shared/Fixtures.sol";
 
-abstract contract BaseTest is Test, Fixtures, Fork {
+abstract contract BaseTest is Test, Config, Constants, Fixtures {
     using stdStorage for StdStorage;
 
-    uint256 internal snapshotId = type(uint256).max;
+    uint256 internal snapshotId = MAX_UINT256;
 
     modifier impersonate(address account) {
         vm.assume(account != address(0));
+        vm.startPrank(account);
+        _;
+        vm.stopPrank();
+    }
 
-        (VmSafe.CallerMode callerMode, address msgSender,) = vm.readCallers();
-        if (callerMode == VmSafe.CallerMode.Prank) {
-            vm.stopPrank();
-            vm.startPrank(account);
-            _;
-            vm.stopPrank();
-            vm.prank(msgSender != account ? msgSender : account);
-        } else if (callerMode == VmSafe.CallerMode.RecurrentPrank) {
-            if (msgSender != account) {
-                vm.stopPrank();
-                vm.startPrank(account);
-                _;
-                vm.stopPrank();
-                vm.startPrank(msgSender);
-            }
-        } else {
-            vm.startPrank(account);
-            _;
-            vm.stopPrank();
-        }
+    modifier fork(uint256 chainId) {
+        _loadConfigAndForks("./config/test.toml", false);
+        vm.selectFork(forkOf[chainId]);
+        _;
     }
 
     function deal(address token, address account, uint256 value, bool adjust) internal virtual override {
@@ -92,7 +80,7 @@ abstract contract BaseTest is Test, Fixtures, Fork {
     }
 
     function revertToState() internal {
-        if (snapshotId != type(uint256).max) vm.revertToState(snapshotId);
+        if (snapshotId != MAX_UINT256) vm.revertToState(snapshotId);
         snapshotId = vm.snapshotState();
     }
 }

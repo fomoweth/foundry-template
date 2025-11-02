@@ -1,0 +1,179 @@
+[mainnet]
+endpoint_url = "${MAINNET_RPC_URL}"
+
+[mainnet.address]
+weth = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+
+[mainnet.bool]
+is_testnet = false
+
+[sepolia]
+endpoint_url = "${SEPOLIA_RPC_URL}"
+
+[sepolia.address]
+weth = "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"
+
+[sepolia.bool]
+is_testnet = true
+
+[optimism]
+endpoint_url = "${OPTIMISM_RPC_URL}"
+
+[optimism.address]
+weth = "0x4200000000000000000000000000000000000006"
+
+[optimism.bool]
+is_testnet = false
+
+[optimism-sepolia]
+endpoint_url = "${OPTIMISM_SEPOLIA_RPC_URL}"
+
+[optimism-sepolia.address]
+weth = "0x4200000000000000000000000000000000000006"
+
+[optimism-sepolia.bool]
+is_testnet = true
+
+[bsc]
+endpoint_url = "${BSC_RPC_URL}"
+
+[bsc.address]
+weth = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+
+[bsc.bool]
+is_testnet = false
+
+[bsc-testnet]
+endpoint_url = "${BSC_TESTNET_RPC_URL}"
+
+[bsc-testnet.address]
+weth = "0x9cB928A44B0664Ad8e933C833f8210d772269b68"
+
+[bsc-testnet.bool]
+is_testnet = true
+
+[unichain]
+endpoint_url = "${UNICHAIN_RPC_URL}"
+
+[unichain.address]
+weth = "0x4200000000000000000000000000000000000006"
+
+[unichain.bool]
+is_testnet = false
+
+[unichain-sepolia]
+endpoint_url = "${OPTIMISM_SEPOLIA_RPC_URL}"
+
+[unichain-sepolia.address]
+weth = "0x4200000000000000000000000000000000000006"
+
+[unichain-sepolia.bool]
+is_testnet = true
+
+[polygon]
+endpoint_url = "${POLYGON_RPC_URL}"
+
+[polygon.address]
+weth = "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270"
+
+[polygon.bool]
+is_testnet = false
+
+[amoy]
+endpoint_url = "${AMOY_RPC_URL}"
+
+[amoy.address]
+weth = "0x52eF3d68BaB452a294342DC3e5f464d7f610f72E"
+
+[amoy.bool]
+is_testnet = true
+
+[base]
+endpoint_url = "${BASE_RPC_URL}"
+
+[base.address]
+weth = "0x4200000000000000000000000000000000000006"
+
+[base.bool]
+is_testnet = false
+
+[base-sepolia]
+endpoint_url = "${BASE_SEPOLIA_RPC_URL}"
+
+[base-sepolia.address]
+weth = "0x4200000000000000000000000000000000000006"
+
+[base-sepolia.bool]
+is_testnet = true
+
+[arbitrum]
+endpoint_url = "${ARBITRUM_RPC_URL}"
+
+[arbitrum.address]
+weth = "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1"
+
+[arbitrum.bool]
+is_testnet = false
+
+[arbitrum-sepolia]
+endpoint_url = "${ARBITRUM_SEPOLIA_RPC_URL}"
+
+[arbitrum-sepolia.address]
+weth = "0x2836ae2eA2c013acD38028fD0C77B92cccFa2EE4"
+
+[arbitrum-sepolia.bool]
+is_testnet = true
+
+[avalanche]
+endpoint_url = "${AVALANCHE_RPC_URL}"
+
+[avalanche.address]
+weth = "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7"
+
+[avalanche.bool]
+is_testnet = false
+
+[fuji]
+endpoint_url = "${FUJI_RPC_URL}"
+
+[fuji.address]
+weth = "0xb767287a7143759f294cfb7b1adbca1140f3de71"
+
+[fuji.bool]
+is_testnet = true
+
+[linea]
+endpoint_url = "${LINEA_RPC_URL}"
+
+[linea.address]
+weth = "0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f"
+
+[linea.bool]
+is_testnet = false
+
+[linea-sepolia]
+endpoint_url = "${LINEA_SEPOLIA_RPC_URL}"
+
+[linea-sepolia.address]
+weth = "0x10253594A832f967994b44f33411940533302ACb"
+
+[linea-sepolia.bool]
+is_testnet = true
+
+[scroll]
+endpoint_url = "${SCROLL_RPC_URL}"
+
+[scroll.address]
+weth = "0x5300000000000000000000000000000000000004"
+
+[scroll.bool]
+is_testnet = false
+
+[scroll-sepolia]
+endpoint_url = "${SCROLL_SEPOLIA_RPC_URL}"
+
+[scroll-sepolia.address]
+weth = "0x5300000000000000000000000000000000000004"
+
+[scroll-sepolia.bool]
+is_testnet = true
