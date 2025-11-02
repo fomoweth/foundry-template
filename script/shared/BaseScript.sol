@@ -2,14 +2,13 @@
 pragma solidity ^0.8.30;
 
 import {Script} from "forge-std/Script.sol";
+import {Config} from "forge-std/Config.sol";
 import {stdJson} from "forge-std/StdJson.sol";
 
-import {Fork} from "test/shared/helpers/Fork.sol";
-
-abstract contract BaseScript is Script, Fork {
+abstract contract BaseScript is Script, Config {
     using stdJson for string;
 
-    string internal constant DEFAULT_MNEMONIC = "test test test test test test test test test test test junk";
+    string private constant DEFAULT_MNEMONIC = "test test test test test test test test test test test junk";
 
     address internal broadcaster;
 
@@ -19,11 +18,17 @@ abstract contract BaseScript is Script, Fork {
         vm.stopBroadcast();
     }
 
+    modifier fork(uint256 chainId) {
+        vm.selectFork(forkOf[chainId]);
+        _;
+    }
+
     function setUp() public virtual {
+        _loadConfigAndForks("./config/deployments.toml", true);
         broadcaster = vm.rememberKey(configurePrivateKey());
     }
 
-    function configurePrivateKey() internal view virtual returns (uint256) {
+    function configurePrivateKey() internal view virtual returns (uint256 privateKey) {
         return vm.envOr({
             name: "PRIVATE_KEY",
             defaultValue: vm.deriveKey({
@@ -33,25 +38,33 @@ abstract contract BaseScript is Script, Fork {
         });
     }
 
-    function create(bytes memory bytecode) internal virtual returns (address instance) {
+    function create(bytes memory bytecode) internal returns (address instance) {
+        return create(bytecode, 0);
+    }
+
+    function create(bytes memory bytecode, uint256 value) internal returns (address instance) {
         assembly ("memory-safe") {
-            instance := create(0x00, add(bytecode, 0x20), mload(bytecode))
+            instance := create(value, add(bytecode, 0x20), mload(bytecode))
         }
     }
 
-    function create2(bytes memory bytecode, bytes32 salt) internal virtual returns (address instance) {
+    function create2(bytes memory bytecode, bytes32 salt) internal returns (address instance) {
+        return create2(bytecode, salt, 0);
+    }
+
+    function create2(bytes memory bytecode, bytes32 salt, uint256 value) internal returns (address instance) {
         assembly ("memory-safe") {
-            instance := create2(0x00, add(bytecode, 0x20), mload(bytecode), salt)
+            instance := create2(value, add(bytecode, 0x20), mload(bytecode), salt)
         }
     }
 
     function encodeJson(string memory path, string memory name, address instance, bytes32 salt) internal virtual {
         string memory json = "json";
+        json.serialize("name", name);
         json.serialize("address", instance);
+        json.serialize("salt", salt);
         json.serialize("blockNumber", vm.getBlockNumber());
         json.serialize("timestamp", vm.getBlockTimestamp());
-        json.serialize("salt", salt);
-        json.serialize("name", name);
         json = json.serialize("deployer", broadcaster);
         json.write(path);
     }
@@ -65,51 +78,51 @@ abstract contract BaseScript is Script, Fork {
         if (bytes(input).length == 0) input = defaultValue;
     }
 
-    function promptAddress(string memory promptText, address defaultValue) internal returns (address) {
-        return vm.parseAddress(prompt(promptText, vm.toString(defaultValue)));
-    }
-
     function promptAddress(string memory promptText) internal returns (address) {
         return promptAddress(promptText, address(0));
     }
 
-    function promptBool(string memory promptText, bool defaultValue) internal returns (bool) {
-        return vm.parseBool(prompt(promptText, vm.toString(defaultValue)));
+    function promptAddress(string memory promptText, address defaultValue) internal returns (address) {
+        return vm.parseAddress(prompt(promptText, vm.toString(defaultValue)));
     }
 
     function promptBool(string memory promptText) internal returns (bool) {
         return promptBool(promptText, false);
     }
 
-    function promptUint256(string memory promptText, uint256 defaultValue) internal returns (uint256) {
-        return vm.parseUint(prompt(promptText, vm.toString(defaultValue)));
+    function promptBool(string memory promptText, bool defaultValue) internal returns (bool) {
+        return vm.parseBool(prompt(promptText, vm.toString(defaultValue)));
     }
 
     function promptUint256(string memory promptText) internal returns (uint256) {
         return promptUint256(promptText, uint256(0));
     }
 
-    function promptInt256(string memory promptText, int256 defaultValue) internal returns (int256) {
-        return vm.parseInt(prompt(promptText, vm.toString(defaultValue)));
+    function promptUint256(string memory promptText, uint256 defaultValue) internal returns (uint256) {
+        return vm.parseUint(prompt(promptText, vm.toString(defaultValue)));
     }
 
     function promptInt256(string memory promptText) internal returns (int256) {
         return promptInt256(promptText, int256(0));
     }
 
-    function promptBytes32(string memory promptText, bytes32 defaultValue) internal returns (bytes32) {
-        return vm.parseBytes32(prompt(promptText, vm.toString(defaultValue)));
+    function promptInt256(string memory promptText, int256 defaultValue) internal returns (int256) {
+        return vm.parseInt(prompt(promptText, vm.toString(defaultValue)));
     }
 
     function promptBytes32(string memory promptText) internal returns (bytes32) {
         return promptBytes32(promptText, bytes32(0));
     }
 
-    function promptBytes(string memory promptText, bytes memory defaultValue) internal returns (bytes memory) {
-        return vm.parseBytes(prompt(promptText, vm.toString(defaultValue)));
+    function promptBytes32(string memory promptText, bytes32 defaultValue) internal returns (bytes32) {
+        return vm.parseBytes32(prompt(promptText, vm.toString(defaultValue)));
     }
 
     function promptBytes(string memory promptText) internal returns (bytes memory) {
         return promptBytes(promptText, new bytes(0));
+    }
+
+    function promptBytes(string memory promptText, bytes memory defaultValue) internal returns (bytes memory) {
+        return vm.parseBytes(prompt(promptText, vm.toString(defaultValue)));
     }
 }
